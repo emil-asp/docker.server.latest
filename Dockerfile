@@ -58,8 +58,8 @@ RUN apt-get -y install mariadb-server-10.0
 
 
 # 
-  RUN mkdir -p /var/www && mkdir /var/www/logs/ && mkdir /var/www/sites/ && mkdir /var/www/sites/composer/
-  
+  RUN mkdir -p /var/www && mkdir /var/www/logs/ && mkdir /var/www/sites/ && mkdir /var/www/sites/composer/ && mkdir /var/www/tmp
+
 #  WORKDIR /app
 
 
@@ -71,10 +71,29 @@ RUN apt-get -y install mariadb-server-10.0
 
     
 # tell Nginx to stay foregrounded
-    ADD nginx.conf /etc/nginx/nginx.conf
-    ADD site.conf /etc/nginx/sites-available/
-    RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/
+    #ADD nginx.conf /etc/nginx/nginx.conf
     RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+
+# Add site
+   ENV SITE_NAME=site.ru
+   
+   #RUN echo $SITE_NAME
+   
+   ADD create.site.sh /usr/bin/
+   ADD site.conf.tmplt /etc/nginx/sites-available/
+   ADD pool.conf.tmplt /etc/php5/fpm/pool.d/
+   #RUN mv /etc/nginx/sites-available/site.conf.tmplt /etc/nginx/sites-available/$SITE_NAME
+   #RUN mv /etc/php5/fpm/pool.d/pool.conf.tmplt /etc/php5/fpm/pool.d/$SITE_NAME
+   RUN /usr/bin/create.site.sh $SITE_NAME
+   
+   #RUN ln -s /etc/nginx/sites-available/$SITE_NAME /etc/nginx/sites-enabled/
+
+# Other
+
+   ADD other.sh /usr/bin/
+   RUN /usr/bin/other.sh
+   
          
 # expose HTTP
      EXPOSE 80
@@ -86,6 +105,6 @@ RUN apt-get -y install mariadb-server-10.0
        
 # Run
         
-	CMD [ "/usr/sbin/nginx" ] 
+	CMD [ "service nginx reload" ] 
 	CMD [ "service php5-fpm restart" ]
 
