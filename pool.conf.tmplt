@@ -1,8 +1,13 @@
 [SITE_NAME_PATTERN]
 
-listen = 127.0.0.1:9001
+;listen = 127.0.0.1:9001
+;listen.allowed_clients = 127.0.0.1
 
-listen.allowed_clients = 127.0.0.1
+listen = /var/run/SITE_NAME_PATTERN.sock
+
+listen.owner = www-data
+listen.group = www-data
+listen.mode = 0660
 
 user = www-data
 group = www-data

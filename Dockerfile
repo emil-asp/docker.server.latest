@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:jessie
 MAINTAINER emilasp <emilasp@mail.ru>
  
 # Configure my repo to use my custom Nginx with modsec
@@ -7,18 +7,18 @@ MAINTAINER emilasp <emilasp@mail.ru>
  
     #RUN apt-get update && apt-get install -y  
   
-    RUN apt-get clean
-    RUN apt-get -f install
-    RUN apt-get autoclean
+    #RUN apt-get clean
+    #RUN apt-get -f install
+    #RUN apt-get autoclean
 
 
     # add repo for packages
-    RUN echo "\ndeb http://mirror.yandex.ru/debian/ testing main contrib non-free" | tee  /etc/apt/sources.list && \
-    echo "\ndeb-src http://mirror.yandex.ru/debian/ testing main contrib non-free" | tee -a /etc/apt/sources.list && \
-    echo "\ndeb http://security.debian.org/ testing/updates main contrib non-free" | tee -a /etc/apt/sources.list && \
-    echo "\ndeb-src http://security.debian.org/ testing/updates main contrib non-free" | tee -a /etc/apt/sources.list && \
-    echo "\ndeb http://mirror.yandex.ru/debian/ testing-updates main contrib non-free" | tee -a /etc/apt/sources.list && \
-    echo "\ndeb-src http://mirror.yandex.ru/debian/ testing-updates main contrib non-free" | tee -a /etc/apt/sources.list
+    #RUN echo "\ndeb http://mirror.yandex.ru/debian/ testing main contrib non-free" | tee  /etc/apt/sources.list && \
+    #echo "\ndeb-src http://mirror.yandex.ru/debian/ testing main contrib non-free" | tee -a /etc/apt/sources.list && \
+    #echo "\ndeb http://security.debian.org/ testing/updates main contrib non-free" | tee -a /etc/apt/sources.list && \
+    #echo "\ndeb-src http://security.debian.org/ testing/updates main contrib non-free" | tee -a /etc/apt/sources.list && \
+    #echo "\ndeb http://mirror.yandex.ru/debian/ testing-updates main contrib non-free" | tee -a /etc/apt/sources.list && \
+    #echo "\ndeb-src http://mirror.yandex.ru/debian/ testing-updates main contrib non-free" | tee -a /etc/apt/sources.list
     
     env DEBIAN_FRONTEND noninteractive
 
@@ -27,34 +27,42 @@ MAINTAINER emilasp <emilasp@mail.ru>
     RUN dpkg --print-architecture
     RUN apt-get install -y --force-yes debconf-utils
     RUN apt-get install -y --force-yes apt-utils
-    RUN apt-get install -y --force-yes aptitude dialog
+    RUN apt-get install -y --force-yes aptitude net-tools procps dialog
     RUN apt-get install -y --force-yes wget vim htop tar curl
 
     #RUN echo "\ndeb http://packages.dotdeb.org wheezy all" > /etc/apt/sources.list
-    RUN wget http://www.dotdeb.org/dotdeb.gpg && cat dotdeb.gpg | apt-key add -
-    RUN aptitude update && aptitude -y upgrade
+    #RUN wget http://www.dotdeb.org/dotdeb.gpg && cat dotdeb.gpg | apt-key add -
+    #RUN aptitude update && aptitude -y upgrade
 
 
 # install php5-fpm
    RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt redis-server 
 
-# install nginx
-   RUN aptitude install nginx -y
+
 
 # install xdebug
    RUN aptitude -y install php5-xdebug
 # install mariadb
-RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-RUN apt-get -y install software-properties-common 
-RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db 
-RUN echo "\ndeb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main" | tee -a /etc/apt/sources.list
-RUN apt-get update
+   RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+   RUN apt-get -y install software-properties-common
+   RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+   RUN echo "\ndeb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main" | tee -a /etc/apt/sources.list
+   RUN apt-get update
 
 #RUN apt-cache show mysql-common | grep Version
 #RUN apt-cache show libmysqlclient18 | grep Version
 
 RUN apt-get -y install mariadb-server-10.0
 
+
+
+
+
+
+
+# install nginx
+   RUN aptitude install nginx-full -y
+   RUN rm /etc/nginx/sites-enabled/default 
 
 
 # 
@@ -72,7 +80,7 @@ RUN apt-get -y install mariadb-server-10.0
     
 # tell Nginx to stay foregrounded
     #ADD nginx.conf /etc/nginx/nginx.conf
-    RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+    #RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 
 # Add site
@@ -104,7 +112,11 @@ RUN apt-get -y install mariadb-server-10.0
       EXPOSE 3306
        
 # Run
+       
+        #ENTRYPOINT ["/usr/sbin/nginx -g","daemon off;"]
         
-	CMD [ "service nginx reload" ] 
-	CMD [ "service php5-fpm restart" ]
+	#CMD /usr/sbin/nginx -g "daemon off;"
+	#CMD ["nginx", "-g", "daemon off;"]
+	#CMD [ "service nginx reload" ] 
+	CMD [ "service php5-fpm start" ]
 
