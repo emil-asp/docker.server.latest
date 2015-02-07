@@ -19,6 +19,9 @@ MAINTAINER emilasp <emilasp@mail.ru>
     #echo "\ndeb-src http://security.debian.org/ testing/updates main contrib non-free" | tee -a /etc/apt/sources.list && \
     #echo "\ndeb http://mirror.yandex.ru/debian/ testing-updates main contrib non-free" | tee -a /etc/apt/sources.list && \
     #echo "\ndeb-src http://mirror.yandex.ru/debian/ testing-updates main contrib non-free" | tee -a /etc/apt/sources.list
+   
+   
+   
     
     env DEBIAN_FRONTEND noninteractive
 
@@ -102,12 +105,18 @@ RUN apt-get -y install mariadb-server-10.0
    ADD other.sh /usr/bin/
    RUN /usr/bin/other.sh
    
+RUN echo "\n[Xdebug]" | tee -a /etc/php5/fpm/php.ini && \
+echo "\nxdebug.idekey = \"PHPSTORM\"" | tee -a /etc/php5/fpm/php.ini && \
+echo "\nxdebug.remote_enable = 1" | tee -a /etc/php5/fpm/php.ini && \
+echo "\nxdebug.remote_handler = \"dbgp\"" | tee -a /etc/php5/fpm/php.ini && \
+echo "\nxdebug.remote_port = 9001" | tee -a /etc/php5/fpm/php.ini && \
+echo "\nxdebug.remote_connect_back=on" | tee -a /etc/php5/fpm/php.ini
          
 # expose HTTP
      EXPOSE 80
      EXPOSE 8080
      EXPOSE 443
-      
+     EXPOSE 9001 
 # expose mysql
       EXPOSE 3306
        
@@ -118,5 +127,9 @@ RUN apt-get -y install mariadb-server-10.0
 	#CMD /usr/sbin/nginx -g "daemon off;"
 	#CMD ["nginx", "-g", "daemon off;"]
 	#CMD [ "service nginx reload" ] 
+	
 	CMD [ "service php5-fpm start" ]
-
+	
+	WORKDIR /etc/nginx
+	CMD [ "nginx" ]
+	#CMD [ "/etc/init.d/nginx start" ]
