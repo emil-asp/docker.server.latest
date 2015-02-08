@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "nameserver 8.8.8.8" >> ~/.bashrc
+#echo "nameserver 8.8.8.8" >> ~/.bashrc
 echo "export LS_OPTIONS='--color=auto'" >> ~/.bashrc
 echo "eval \"`dircolors`\"" >> ~/.bashrc
 echo "alias ls='ls $LS_OPTIONS'" >> ~/.bashrc

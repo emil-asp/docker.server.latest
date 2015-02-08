@@ -16,7 +16,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
 
    # install php5-fpm
-   RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt redis-server 
+   RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt memcached php5-memcached php-pear  php5-curl redis-server 
 
    # install xdebug
 
@@ -49,6 +49,9 @@ MAINTAINER emilasp <emilasp@mail.ru>
        mkdir /var/www/sites/composer/ && \
        mkdir /var/www/tmp
 
+   # dop install
+   RUN apt-get install -y --force-yes git git-core rsync
+
 #  WORKDIR /app
 
     # Install composer && global asset plugin (Yii 2.0 requirement)
@@ -77,7 +80,8 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
    ADD other.sh /usr/bin/
    RUN /usr/bin/other.sh
-   
+   ADD start_services /usr/bin/
+
 # expose HTTP
      EXPOSE 80
      EXPOSE 8080
