@@ -56,7 +56,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 #  WORKDIR /app
 
     # Install composer && global asset plugin (Yii 2.0 requirement)
-    RUN bash -c "wget http://getcomposer.org/composer.phar && mv composer.phar /usr/bin/composer && chmod +x /var/www/sites/composer/composer.phar" && \
+    RUN bash -c "wget http://getcomposer.org/composer.phar && mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer" && \
         /var/www/sites/composer/composer.phar global require "fxp/composer-asset-plugin:1.0.0-beta4"
     #ADD config.json /var/www/sites/composer/config.json
     
