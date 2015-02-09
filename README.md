@@ -49,4 +49,9 @@ View run conteiners
 docker ps
 ```
 
-	
+Install docker on debian 8(testing)
+--------------------------
+
+```bash
+aptitude install docker.io
+```	
