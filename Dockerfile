@@ -17,7 +17,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
 
    # install php5-fpm
-   RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt memcached php5-memcached php-pear  php5-curl redis-server 
+   RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt php5-mysql memcached php5-memcached php-pear  php5-curl redis-server 
 
    # install xdebug
 
@@ -56,7 +56,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 #  WORKDIR /app
 
     # Install composer && global asset plugin (Yii 2.0 requirement)
-    RUN bash -c "wget http://getcomposer.org/composer.phar && mv composer.phar /var/www/sites/composer && chmod +x /var/www/sites/composer/composer.phar" && \
+    RUN bash -c "wget http://getcomposer.org/composer.phar && mv composer.phar /usr/bin/composer && chmod +x /var/www/sites/composer/composer.phar" && \
         /var/www/sites/composer/composer.phar global require "fxp/composer-asset-plugin:1.0.0-beta4"
     #ADD config.json /var/www/sites/composer/config.json
     
