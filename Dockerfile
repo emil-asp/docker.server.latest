@@ -5,7 +5,8 @@ MAINTAINER emilasp <emilasp@mail.ru>
  #RUN mkdir -p /usr/local/src
 # RUN cd /bin/bash
     
-    env DEBIAN_FRONTEND noninteractive
+    ENV DEBIAN_FRONTEND noninteractive
+    #export DEBIAN_FRONTEND='noninteractive'
 
     RUN apt-get update && apt-get -y upgrade && \
         dpkg --print-architecture && \
@@ -65,7 +66,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
 
 # Add site
-   ENV SITE_NAME=site.ru
+   ENV SITE_NAME site.ru
    
    #RUN echo $SITE_NAME
    
