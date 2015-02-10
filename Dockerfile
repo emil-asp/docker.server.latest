@@ -52,7 +52,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
    # dop install
    RUN apt-get install -y --force-yes git git-core rsync
-
+   RUN git config --global user.email "emil@amulex.ru" && git config --global user.name "emilasp"
 #  WORKDIR /app
 
     # Install composer && global asset plugin (Yii 2.0 requirement)
