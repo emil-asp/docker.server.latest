@@ -13,7 +13,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
         apt-get install -y --force-yes debconf-utils && \
         apt-get install -y --force-yes apt-utils && \
         apt-get install -y --force-yes aptitude net-tools procps dialog && \
-        apt-get install -y --force-yes wget vim htop tar curl inxi
+        apt-get install -y --force-yes wget vim htop tar curl
 
 
    # install php5-fpm
