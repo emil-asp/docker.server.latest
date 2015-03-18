@@ -59,7 +59,11 @@ MAINTAINER emilasp <emilasp@mail.ru>
     RUN bash -c "wget http://getcomposer.org/composer.phar && mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer" && \
         composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
     #ADD config.json /var/www/sites/composer/config.json
-    
+   
+
+    # install optimize tools
+   RUN aptitude install apache2-utils percona-toolkit -y
+ 
 # tell Nginx to stay foregrounded
     #ADD nginx.conf /etc/nginx/nginx.conf
     #RUN echo "daemon off;" >> /etc/nginx/nginx.conf
