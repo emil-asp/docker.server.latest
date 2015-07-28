@@ -12,7 +12,7 @@ Create Interactive
 --------------------------
 
 ```bash
-docer run -it  -p 127.0.0.1:80:80 --name dev.server  --volume /var/www/sites:/var/www/sites  emilasp/deb.nginx.fpm.mdb start_services
+docker run -it  -p 127.0.0.1:80:80 -p 2022:22 --name server  --volume /var/www:/var/www  emilasp/deb.nginx.fpm.mdb start_services
 ```
 create Background
 

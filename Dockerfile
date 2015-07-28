@@ -96,6 +96,20 @@ MAINTAINER emilasp <emilasp@mail.ru>
 # expose mysql
       EXPOSE 3306
        
+# Add SSH entry
+	RUN apt-get install -y --force-yes openssh-server
+	RUN mkdir /root/.ssh
+	RUN mkdir /var/run/sshd
+	RUN echo 'root:screencast' |chpasswd
+	EXPOSE 22
+	CMD /usr/sbin/sshd -D
+	ADD keys/docker_rsa.pub /tmp/rsa_public_key
+	RUN cat /tmp/rsa_public_key >> /root/.ssh/authorized_keys && rm -f /tmp/rsa_public_key
+
+# Locale
+	ENV LANG=ru_RU.utf8
+
+
 # Run
        
         #ENTRYPOINT ["/usr/sbin/nginx -g","daemon off;"]
