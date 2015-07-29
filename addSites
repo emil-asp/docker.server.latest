@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#mkdir /var/www/docker_tmp/
+#mkdir /var/www/docker_tmp/bases
+#mkdir /var/www/docker_tmp/php5
+#mkdir /var/www/docker_tmp/nginx
+
+if [ -f /tmp/docker_tmp/php5/php.ini ]; then 
+   cp /tmp/docker_tmp/php5/php.ini /etc/php5/fpm/; 
+   cp /tmp/docker_tmp/php5/pool.d/* /etc/php5/fpm/pool.d/;
+fi
+
+if [ -f /tmp/docker_tmp/nginx/nginx.conf ]; then 
+   cp -R /tmp/docker_tmp/nginx/sites-available/* /etc/nginx/sites-available/; 
+
+   find  /etc/nginx/sites-available/ -type f  | while read FILENAME; do 
+      echo $FILENAME; 
+      ln -s $FILENAME /etc/nginx/sites-enabled/
+   done
+fi
+
+if [ -f /tmp/docker_tmp/bases/all.sql ]; then 
+   /etc/init.d/mysql start; 
+   mysql -uroot < /tmp/docker_tmp/bases/all.sql; 
+fi
+
+rm -rf /tmp/docker_tmp/
+

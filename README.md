@@ -5,6 +5,17 @@
 
 Installation
 ------------
+
+Add mysqlDump 
+------------
+mysqldump -uroot --all-databases >.../all.sql
+Copy dump in sites/databases/tmp/all.sql
+
+Add php5 and nginx configs
+-------------
+Copy /etc/php5/* and /etc/nginx/* into sites/nginx/tmp/ and sites/php5/tmp/ 
+
+
 ```bash
 docker build -t emilasp/deb.nginx.fpm.mdb ./
 ```
