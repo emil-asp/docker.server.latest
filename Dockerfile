@@ -13,7 +13,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
         apt-get install -y --force-yes debconf-utils && \
         apt-get install -y --force-yes apt-utils && \
         apt-get install -y --force-yes aptitude net-tools procps dialog && \
-        apt-get install -y --force-yes wget vim htop tar curl
+        apt-get install -y --force-yes wget vim htop tar curl console-cyrillic
 
 
    # install php5-fpm
@@ -90,6 +90,25 @@ MAINTAINER emilasp <emilasp@mail.ru>
    
    #RUN ln -s /etc/nginx/sites-available/$SITE_NAME /etc/nginx/sites-enabled/
 
+# import sites
+
+   RUN mkdir /tmp/docker_tmp/
+   RUN mkdir /tmp/docker_tmp/bases
+   RUN mkdir /tmp/docker_tmp/php5
+   RUN mkdir /tmp/docker_tmp/php5/pool.d
+   RUN mkdir /tmp/docker_tmp/nginx
+
+   ADD sites/databases/tmp/* /tmp/docker_tmp/bases/
+   ADD sites/php5/tmp/fpm/php.ini /tmp/docker_tmp/php5/
+   ADD sites/php5/tmp/fpm/pool.d/* /tmp/docker_tmp/php5/pool.d/
+   ADD sites/nginx/tmp/* /tmp/docker_tmp/nginx/
+
+   ADD addSites /usr/bin/
+   RUN /usr/bin/addSites
+
+   RUN service php5-fpm restart
+   RUN service nginx restart
+
 # Other
 
    ADD other.sh /usr/bin/
@@ -105,6 +124,20 @@ MAINTAINER emilasp <emilasp@mail.ru>
 # expose mysql
       EXPOSE 3306
        
+# Add SSH entry
+	RUN apt-get install -y --force-yes openssh-server
+	RUN mkdir /root/.ssh
+	RUN mkdir /var/run/sshd
+	RUN echo 'root:screencast' |chpasswd
+	EXPOSE 22
+	CMD /usr/sbin/sshd -D
+	ADD keys/docker_rsa.pub /tmp/rsa_public_key
+	RUN cat /tmp/rsa_public_key >> /root/.ssh/authorized_keys && rm -f /tmp/rsa_public_key
+
+# Locale
+	#ENV LANG=ru_RU.utf8
+
+
 # Run
        
         #ENTRYPOINT ["/usr/sbin/nginx -g","daemon off;"]

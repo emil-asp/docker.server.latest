@@ -5,6 +5,17 @@
 
 Installation
 ------------
+
+Add mysqlDump 
+------------
+mysqldump -uroot --all-databases >.../all.sql
+Copy dump in sites/databases/tmp/all.sql
+
+Add php5 and nginx configs
+-------------
+Copy /etc/php5/* and /etc/nginx/* into sites/nginx/tmp/ and sites/php5/tmp/ 
+
+
 ```bash
 docker build -t emilasp/deb.nginx.fpm.mdb ./
 ```
@@ -12,7 +23,7 @@ Create Interactive
 --------------------------
 
 ```bash
-docer run -it  -p 127.0.0.1:80:80 --name dev.server  --volume /var/www/sites:/var/www/sites  emilasp/deb.nginx.fpm.mdb start_services
+docker run -it  -p 127.0.0.1:80:80 -p 2022:22 --name server  --volume /var/www:/var/www  emilasp/deb.nginx.fpm.mdb start_services
 ```
 create Background
 
