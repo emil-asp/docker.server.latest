@@ -81,24 +81,6 @@ MAINTAINER emilasp <emilasp@mail.ru>
    
    #RUN ln -s /etc/nginx/sites-available/$SITE_NAME /etc/nginx/sites-enabled/
 
-# import sites
-
-   RUN mkdir /tmp/docker_tmp/
-   RUN mkdir /tmp/docker_tmp/bases
-   RUN mkdir /tmp/docker_tmp/php5
-   RUN mkdir /tmp/docker_tmp/php5/pool.d
-   RUN mkdir /tmp/docker_tmp/nginx
-
-   ADD sites/databases/tmp/* /tmp/docker_tmp/bases/
-   ADD sites/php5/tmp/fpm/php.ini /tmp/docker_tmp/php5/
-   ADD sites/php5/tmp/fpm/pool.d/* /tmp/docker_tmp/php5/pool.d/
-   ADD sites/nginx/tmp/* /tmp/docker_tmp/nginx/
-
-   ADD addSites /usr/bin/
-   RUN /usr/bin/addSites
-
-   RUN service php5-fpm restart
-   RUN service nginx restart
 
 # Other
 
@@ -127,6 +109,31 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
 # Locale
 	#ENV LANG=ru_RU.utf8
+
+# import sites
+
+   RUN mkdir /tmp/docker_tmp/
+   RUN mkdir /tmp/docker_tmp/bases
+   RUN mkdir /tmp/docker_tmp/php5
+   RUN mkdir /tmp/docker_tmp/php5/pool.d
+   RUN mkdir /tmp/docker_tmp/nginx
+   RUN mkdir /tmp/docker_tmp/nginx/sites-available
+
+
+   ADD sites/databases/tmp/* /tmp/docker_tmp/bases/
+   ADD sites/php5/tmp/fpm/* /tmp/docker_tmp/php5/
+   ADD sites/php5/tmp/fpm/pool.d/* /tmp/docker_tmp/php5/pool.d/
+   ADD sites/nginx/tmp/sites-available/* /tmp/docker_tmp/nginx/sites-available/
+   ADD sites/nginx/tmp/*  /tmp/docker_tmp/nginx/
+
+
+
+   ADD addSites /usr/bin/
+   RUN /usr/bin/addSites
+
+   RUN service php5-fpm restart
+   RUN service nginx restart
+
 
 
 # Run
