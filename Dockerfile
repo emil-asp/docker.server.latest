@@ -17,7 +17,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
 
    # install php5-fpm
-   RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt php5-mysql memcached php5-memcached php-pear  php5-curl redis-server php5-redis 
+   RUN apt-get install -y --force-yes php5-cli php5-common php5-gd php5-fpm php5-cgi php5-fpm php-pear php5-mcrypt php5-mysql memcached php5-memcached php-pear  php5-curl redis-server php5-redis php5-apc 
 
    # install xdebug
 
@@ -67,6 +67,15 @@ MAINTAINER emilasp <emilasp@mail.ru>
 # tell Nginx to stay foregrounded
     #ADD nginx.conf /etc/nginx/nginx.conf
     #RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+# Install CodeSniffer
+    RUN pear install PHP_CodeSniffer
+
+# Install RabbitMQ
+    RUN apt-get install -y --force-yes rabbitmq-server
+
+# Install Supervisor
+    RUN apt-get install -y --force-yes supervisor
 
 
 # Add site
