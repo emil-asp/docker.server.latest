@@ -126,8 +126,14 @@ MAINTAINER emilasp <emilasp@mail.ru>
 	RUN cat /tmp/rsa_public_key >> /root/.ssh/authorized_keys && rm -f /tmp/rsa_public_key
 
 # Locale
+
+	RUN apt-get -y --force-yes install locale
+	RUN dpkg-reconfigure locales
 	#ENV LANG=ru_RU.utf8
 
+
+# Install Code Sniffer
+	RUN apt-get install -y --force-yes php-codesniffer
 
 # Run
        
