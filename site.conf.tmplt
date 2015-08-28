@@ -1,5 +1,8 @@
 server {
 
+    client_max_body_size 100M;
+    fastcgi_read_timeout 1800;
+
     proxy_read_timeout  900;
     client_header_timeout  10m;
     client_body_timeout    10m;
@@ -48,6 +51,8 @@ server {
     	#fastcgi_hide_header "Set-Cookie";
         ##fastcgi_pass   127.0.0.1:9001;
 	##fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+	#fastcgi_pass  unix:/var/run/hhvm/hhvm.sock;
         
 	fastcgi_pass unix:/var/run/SITE_NAME_PARAM.sock;
 	include fastcgi_params;
