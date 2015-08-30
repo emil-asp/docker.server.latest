@@ -11,7 +11,7 @@ server {
     listen   80;
     server_name SITE_NAME_PARAM, www.SITE_NAME_PARAM;
 
-    root /var/www/sites/SITE_NAME_PARAM/;
+    root /var/www/sites/SITE_NAME_PARAM/frontend/web/;
 
     access_log  /var/www/logs/SITE_NAME_PARAM.nginx.access.log; 
     error_log  /var/www/logs/SITE_NAME_PARAM.nginx.errors.log; 
@@ -19,15 +19,13 @@ server {
     #expires     1m;
     add_header  Cache-Control public;
 
-    client_max_body_size 5m;
-
-    set $yii_bootstrap "index.php";        
+    set $yii_bootstrap "index.php";
     charset utf-8;
 
     location ~ \.(js|css|png|jpg|gif|swf|ico|svg|ttf|eot|woff|pdf|mov|fla|zip|rar)$ {
         gzip_static on;
         try_files $uri =404;
-        root /var/www/sites/SITE_NAME_PARAM/; # Путь к корню вашего сайта
+        root /var/www/sites/SITE_NAME_PARAM/frontend/web/; # Путь к корню вашего сайта
         access_log off; # не пишем логи
         #expires 8d; # кешируем у клиента на 3 дня
     }
