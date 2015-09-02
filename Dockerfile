@@ -171,6 +171,9 @@ MAINTAINER emilasp <emilasp@mail.ru>
 # Install Code Sniffer
 	RUN apt-get install -y --force-yes php-codesniffer
 
+# Install Mass Detector
+	RUN apt-get install -y --force-yes phpmd
+
 # Run
        
     #ENTRYPOINT ["/usr/sbin/nginx -g","daemon off;"]
