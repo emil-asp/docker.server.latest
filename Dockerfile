@@ -17,7 +17,9 @@ MAINTAINER emilasp <emilasp@mail.ru>
         apt-get install -y --force-yes wget vim htop tar curl console-cyrillic
 
 #
-    RUN echo "\ndeb http://httpredir.debian.org/debian jessie main contrib non-free\ndeb-src http://httpredir.debian.org/debian jessie main contrib non-free\ndeb http://httpredir.debian.org/debian jessie-updates main contrib non-free\ndeb-src http://httpredir.debian.org/debian jessie-updates main contrib non-free\ndeb http://security.debian.org/ jessie/updates main\ndeb-src http://security.debian.org/ jessie/updates main"  > /etc/apt/sources.list
+    RUN echo "\ndeb http://httpredir.debian.org/debian jessie main contrib non-free\ndeb-src http://httpredir.debian.org/debian jessie main contrib non-free\ndeb http://httpredir.debian.org/debian jessie-updates main contrib non-free\ndeb-src http://httpredir.debian.org/debian jessie-updates main contrib non-free\ndeb http://security.debian.org/ jessie/updates main\ndeb-src http://security.debian.org/ jessie/updates main\n deb http://ftp.de.debian.org/debian unstable main contrib non-free"  > /etc/apt/sources.list
+
+    RUN echo 'APT::Default-Release "jessie";'  > /etc/apt/apt.conf
 
     RUN cat /etc/apt/sources.list
     RUN apt-get update && apt-get -y upgrade
@@ -41,12 +43,12 @@ MAINTAINER emilasp <emilasp@mail.ru>
    #echo "\nxdebug.remote_connect_back=on" | tee -a /etc/php5/fpm/php.ini
 
 # install mariadb
-   #RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
-   #    apt-get -y install software-properties-common && \
-   #    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
-   #    echo "\ndeb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main" | tee -a /etc/apt/sources.list && \
-   #    apt-get update && \
-   #    apt-get -y install mariadb-server-10.0
+   RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
+       apt-get -y install software-properties-common && \
+       apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
+       echo "\ndeb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main" | tee -a /etc/apt/sources.list && \
+       apt-get update && \
+       apt-get -y install mariadb-server-10.0
 
 # install nginx
    RUN aptitude install nginx-full -y
@@ -132,9 +134,10 @@ MAINTAINER emilasp <emilasp@mail.ru>
 #sudo cp ./postgresql-9.2.2/contrib/start-scripts/linux /etc/init.d/postgres
 #sudo update-rc.d postgres defaults
 #
-	RUN apt-get -y --force-yes install postgresql postgresql-client postgresql-contrib  php5-pgsql phppgadmin wwwconfig-common
-	#RUN useradd --no-create-home postgres
-	#RUN chown -R postgres:postgres /usr/local/pgsql
+	###RUN apt-get -y --force-yes install postgresql postgresql-client postgresql-contrib  php5-pgsql phppgadmin wwwconfig-common
+	
+#RUN useradd --no-create-home postgres
+#RUN chown -R postgres:postgres /usr/local/pgsql
 
 
 # Locale
@@ -169,10 +172,10 @@ MAINTAINER emilasp <emilasp@mail.ru>
     RUN pear install PHP_CodeSniffer
 
 # Install Code Sniffer
-	RUN apt-get install -y --force-yes php-codesniffer
+	RUN apt-get -t unstable install -y --force-yes php-codesniffer
 
 # Install Mass Detector
-	RUN apt-get install -y --force-yes phpmd
+	RUN apt-get -t unstable install -y --force-yes phpmd
 
 # Run
        
