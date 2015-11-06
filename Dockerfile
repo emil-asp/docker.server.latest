@@ -68,7 +68,7 @@ MAINTAINER emilasp <emilasp@mail.ru>
 
 # Install composer && global asset plugin (Yii 2.0 requirement)
     RUN bash -c "wget http://getcomposer.org/composer.phar && mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer" && \
-        composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
+        composer global require "fxp/composer-asset-plugin:~1.0.3"
     #ADD config.json /var/www/sites/composer/config.json
    
 

@@ -28,7 +28,7 @@ docker run -it  -p 127.0.0.1:80:80 -p 2022:22 --name server  --volume /var/www:/
 create Background
 
 ```bash
-docker run -d -p 127.0.0.1:80:80  --name dev.server emilasp/deb.nginx.fpm.mdb
+docker run -d -p 127.0.0.1:80:80  --name dev.server emilasp/deb.nginx.fpm.mdb  /bin/bash
 ```
 
 
